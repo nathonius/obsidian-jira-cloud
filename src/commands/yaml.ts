@@ -24,7 +24,7 @@ export class IssueYamlCommand extends BaseCommandSet {
   }
 
   private async toYaml(summarize = true): Promise<void> {
-    const issue = await this.getIssue();
+    const issue = await this.plugin.api.getIssue();
     const targetFile = this.plugin.app.workspace.getActiveFile();
 
     if (!issue || !targetFile) {

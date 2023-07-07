@@ -6,6 +6,7 @@ import {
 import { Notice, Plugin } from 'obsidian';
 
 import { IssueYamlCommand } from './commands/yaml';
+import { JiraCloudPluginApi } from './api';
 import { JiraIssuePicker } from './jira/issuePicker';
 import { ObsidianJiraClient } from './jira/sdk/jira';
 import { QuickAddCommand } from './commands/quickadd';
@@ -13,6 +14,7 @@ import { QuickAddCommand } from './commands/quickadd';
 export class JiraCloudPlugin extends Plugin {
   settings: JiraCloudSettings = { ...DEFAULT_SETTINGS };
   readonly issuePicker = new JiraIssuePicker(this);
+  readonly api = new JiraCloudPluginApi(this);
   private notified = false;
   private _jira: ObsidianJiraClient | undefined;
 

@@ -37,7 +37,7 @@ export class QuickAddCommand extends BaseCommandSet {
       return;
     }
 
-    const issue = await this.getIssue();
+    const issue = await this.plugin.api.getIssue();
     if (!issue) {
       return;
     }
