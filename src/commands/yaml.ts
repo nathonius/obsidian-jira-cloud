@@ -2,16 +2,29 @@ import { BaseCommandSet } from './base';
 import { Command } from 'obsidian';
 import { IssueModel } from '../jira/models';
 
-export class SummarizeCommand extends BaseCommandSet {
+export class IssueYamlCommand extends BaseCommandSet {
   readonly commands: Command[] = [
     {
-      id: 'ojc-summarize-yaml',
+      id: 'ojc-yaml-summarize',
       name: 'Summarize issue to frontmatter',
-      callback: this.toYaml.bind(this),
+      callback: this.summarize.bind(this),
+    },
+    {
+      id: 'ojc-yaml-issue',
+      name: 'Add issue to frontmatter',
+      callback: this.fullText.bind(this),
     },
   ];
 
-  async toYaml(): Promise<void> {
+  summarize(): Promise<void> {
+    return this.toYaml(true);
+  }
+
+  fullText(): Promise<void> {
+    return this.toYaml(false);
+  }
+
+  private async toYaml(summarize = true): Promise<void> {
     const issue = await this.getIssue();
     const targetFile = this.plugin.app.workspace.getActiveFile();
 
@@ -32,7 +45,7 @@ export class SummarizeCommand extends BaseCommandSet {
         index = 0;
       }
 
-      const summary = {
+      const summary: Record<string, string | undefined> = {
         key: issue.key,
         summary: issue.summary,
         link: issue.link,
@@ -42,6 +55,10 @@ export class SummarizeCommand extends BaseCommandSet {
         createDate: issue.createDate,
         lastUpdated: issue.lastUpdated,
       };
+
+      if (summarize === false) {
+        summary['fullText'] = issue.fullText;
+      }
 
       if (index === -1) {
         yaml['issues'].push(summary);
