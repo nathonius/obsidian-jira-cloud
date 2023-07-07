@@ -6,12 +6,14 @@ export interface JiraCloudSettings {
   apiKey: string;
   username: string;
   host: string;
+  quickAddChoice: string;
 }
 
 export const DEFAULT_SETTINGS: JiraCloudSettings = {
   apiKey: '',
   username: '',
   host: '',
+  quickAddChoice: '',
 };
 
 export class JiraCloudSettingsTab extends PluginSettingTab {
@@ -66,6 +68,21 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
           .setValue(this.plugin.settings.apiKey)
           .onChange(async (value) => {
             this.plugin.settings.apiKey = value;
+            await this.plugin.saveSettings();
+          }),
+      );
+
+    new Setting(containerEl)
+      .setName('QuickAdd choice')
+      .setDesc(
+        'The name of an existing QuickAdd choice to execute with issue data as an argument. Requires the QuickAdd plugin to be installed and configured.',
+      )
+      .addText((text) =>
+        text
+          .setPlaceholder('choiceName')
+          .setValue(this.plugin.settings.quickAddChoice)
+          .onChange(async (value) => {
+            this.plugin.settings.quickAddChoice = value;
             await this.plugin.saveSettings();
           }),
       );

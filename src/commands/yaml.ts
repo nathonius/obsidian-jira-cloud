@@ -1,6 +1,5 @@
 import { BaseCommandSet } from './base';
 import { Command } from 'obsidian';
-import { IssueModel } from '../jira/models';
 
 export class IssueYamlCommand extends BaseCommandSet {
   readonly commands: Command[] = [
@@ -66,17 +65,5 @@ export class IssueYamlCommand extends BaseCommandSet {
         yaml['issues'][index] = summary;
       }
     });
-  }
-
-  private async getIssue(): Promise<IssueModel | null> {
-    const suggestion = await this.plugin.issuePicker.pick();
-    if (!suggestion || !suggestion.key) {
-      return null;
-    }
-    return new IssueModel(
-      await this.jira.issues.getIssue({
-        issueIdOrKey: suggestion.key,
-      }),
-    );
   }
 }

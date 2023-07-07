@@ -1,1 +1,0 @@
-export { IssueModel } from './issue';

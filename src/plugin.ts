@@ -8,6 +8,7 @@ import { Notice, Plugin } from 'obsidian';
 import { IssueYamlCommand } from './commands/yaml';
 import { JiraIssuePicker } from './jira/issuePicker';
 import { ObsidianJiraClient } from './jira/sdk/jira';
+import { QuickAddCommand } from './commands/quickadd';
 
 export class JiraCloudPlugin extends Plugin {
   settings: JiraCloudSettings = { ...DEFAULT_SETTINGS };
@@ -27,6 +28,7 @@ export class JiraCloudPlugin extends Plugin {
     this.addSettingTab(new JiraCloudSettingsTab(this.app, this));
     this.createJiraClient();
     new IssueYamlCommand(this).register();
+    new QuickAddCommand(this).register();
   }
 
   onunload() {}
