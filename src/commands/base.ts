@@ -1,6 +1,10 @@
 import { Command } from 'obsidian';
 import { JiraCloudPlugin } from '../plugin';
 
+/**
+ * A utility class that encapsulates multiple Obsidian command configs with shared logic.
+ * These will be registered in the main plugin class.
+ */
 export abstract class BaseCommandSet {
   abstract readonly commands: Command[];
 

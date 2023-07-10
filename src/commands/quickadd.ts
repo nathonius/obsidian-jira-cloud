@@ -2,6 +2,9 @@ import { Command, Notice } from 'obsidian';
 
 import { BaseCommandSet } from './base';
 
+/**
+ * QuickAdd integration. Currently unused.
+ */
 export class QuickAddCommand extends BaseCommandSet {
   commands: Command[] = [
     {
