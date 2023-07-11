@@ -100,6 +100,8 @@ This could produce a callout like this:
 
 ![Callout example](doc/image.png)
 
+For more examples, check the [examples folder](doc/exmaples).
+
 ## Acknowledgements
 
 - [Atlassian](https://www.atlassian.com/)
