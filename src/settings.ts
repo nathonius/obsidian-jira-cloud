@@ -56,8 +56,6 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    containerEl.createEl('h2', { text: 'Jira Cloud settings' });
-
     new Setting(containerEl)
       .setName('Host')
       .setDesc('Your Atlassian URI, eg. https://my-company.atlassian.net')

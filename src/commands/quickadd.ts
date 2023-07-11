@@ -8,7 +8,7 @@ import { BaseCommandSet } from './base';
 export class QuickAddCommand extends BaseCommandSet {
   commands: Command[] = [
     {
-      id: 'ojc-quickadd-issue',
+      id: 'quickadd-issue',
       name: 'Execute QuickAdd choice',
       callback: this.executeChoice.bind(this),
     },
