@@ -83,7 +83,7 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName('Host')
+      .setName('API Key')
       .setDesc(
         'Your Atlassian API Key, generated here https://id.atlassian.com/manage-profile/security/api-tokens',
       )
