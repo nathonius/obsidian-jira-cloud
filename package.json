@@ -1,6 +1,6 @@
 {
   "name": "obsidian-jira-cloud",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Add Jira issue data to your notes",
   "main": "main.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "name": "OfficerHalf",
     "url": "https://nathan-smith.org/"
   },
-  "license": "MIT",
+  "license": "Unlicense",
   "devDependencies": {
     "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "5.29.0",
