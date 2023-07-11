@@ -56,8 +56,6 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    containerEl.createEl('h2', { text: 'Jira Cloud settings' });
-
     new Setting(containerEl)
       .setName('Host')
       .setDesc('Your Atlassian URI, eg. https://my-company.atlassian.net')
@@ -85,7 +83,7 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
       );
 
     new Setting(containerEl)
-      .setName('Host')
+      .setName('API Key')
       .setDesc(
         'Your Atlassian API Key, generated here https://id.atlassian.com/manage-profile/security/api-tokens',
       )

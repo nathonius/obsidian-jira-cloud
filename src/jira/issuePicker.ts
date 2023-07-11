@@ -37,17 +37,36 @@ export class JiraIssuePicker extends SuggestModal<Version3Models.SuggestedIssue>
     }
 
     const suggestResponse =
-      await this.plugin.jira.issueSearch.getIssuePickerResource({ query });
+      await this.plugin.jira.issueSearch.getIssuePickerResource({
+        query,
+        currentJQL: `summary ~ "${query}"`,
+      });
 
-    if (!suggestResponse.sections?.[0]?.issues?.[0]) {
-      return [];
-    }
+    const suggestionSections = suggestResponse.sections ?? [];
+    const suggestedIssues = new Map<string, Version3Models.SuggestedIssue>();
+    suggestionSections.forEach((section) => {
+      if (!section.issues) {
+        return;
+      }
+      section.issues.forEach((i) => {
+        if (!i.key) {
+          return;
+        }
+        suggestedIssues.set(i.key, i);
+      });
+    });
 
-    return suggestResponse.sections[0].issues;
+    return Array.from(suggestedIssues.values());
   }
 
   renderSuggestion(value: Version3Models.SuggestedIssue, el: HTMLElement) {
-    el.innerHTML = `${value.key}: ${value.summaryText}`;
+    const wrapper = el.createDiv('ojc-search-result');
+    if (value.img) {
+      wrapper.createEl('img', {
+        attr: { src: new URL(value.img, this.plugin.settings.host).href },
+      });
+    }
+    wrapper.createSpan({ text: `${value.key}: ${value.summaryText}` });
   }
 
   selectSuggestion(

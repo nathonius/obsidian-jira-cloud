@@ -1,0 +1,9 @@
+.ojc-search-result {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ojc-search-result > img {
+    width: 24px;
+}

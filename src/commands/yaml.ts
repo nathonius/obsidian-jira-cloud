@@ -10,12 +10,12 @@ import { removeKeys } from 'src/util';
 export class YamlCommand extends BaseCommandSet {
   readonly commands: Command[] = [
     {
-      id: 'ojc-yaml-summarize',
+      id: 'yaml-summarize',
       name: 'Summarize issue to frontmatter',
       callback: this.summarize.bind(this),
     },
     {
-      id: 'ojc-yaml-issue',
+      id: 'yaml-issue',
       name: 'Add issue to frontmatter',
       callback: this.fullIssue.bind(this),
     },
