@@ -5,11 +5,12 @@ import {
 } from './settings';
 import { Notice, Plugin } from 'obsidian';
 
-import { IssueYamlCommand } from './commands/yaml';
+import { YamlCommand } from './commands/yaml';
 import { JiraCloudPluginApi } from './api';
 import { JiraIssuePicker } from './jira/issuePicker';
+import { LoggerMiddleware } from './jira/sdk/logger';
 import { ObsidianJiraClient } from './jira/sdk/jira';
-import { QuickAddCommand } from './commands/quickadd';
+// import { QuickAddCommand } from './commands/quickadd';
 
 export class JiraCloudPlugin extends Plugin {
   settings: JiraCloudSettings = { ...DEFAULT_SETTINGS };
@@ -29,8 +30,8 @@ export class JiraCloudPlugin extends Plugin {
     await this.loadSettings();
     this.addSettingTab(new JiraCloudSettingsTab(this.app, this));
     this.createJiraClient();
-    new IssueYamlCommand(this).register();
-    new QuickAddCommand(this).register();
+    new YamlCommand(this).register();
+    // new QuickAddCommand(this).register();
   }
 
   onunload() {}
@@ -57,6 +58,9 @@ export class JiraCloudPlugin extends Plugin {
           },
         },
         newErrorHandling: true,
+        middlewares: {
+          onResponse: LoggerMiddleware,
+        },
       });
     } else if (!this.notified) {
       new Notice('Jira Cloud plugin requires configuration before use.');

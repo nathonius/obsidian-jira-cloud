@@ -1,7 +1,13 @@
 import { BaseCommandSet } from './base';
 import { Command } from 'obsidian';
+import { IssueModel } from 'src/jira/models/issue';
+import { removeKeys } from 'src/util';
 
-export class IssueYamlCommand extends BaseCommandSet {
+/**
+ * Add an issue to the current note frontmatter.
+ * If the selected issue is already in frontmatter, it's value will be overwritten.
+ */
+export class YamlCommand extends BaseCommandSet {
   readonly commands: Command[] = [
     {
       id: 'ojc-yaml-summarize',
@@ -11,15 +17,22 @@ export class IssueYamlCommand extends BaseCommandSet {
     {
       id: 'ojc-yaml-issue',
       name: 'Add issue to frontmatter',
-      callback: this.fullText.bind(this),
+      callback: this.fullIssue.bind(this),
     },
   ];
 
+  /**
+   * Adds a subset of issue fields to yaml
+   */
   summarize(): Promise<void> {
     return this.toYaml(true);
   }
 
-  fullText(): Promise<void> {
+  /**
+   * Adds most fields to yaml. May be a large amount of data.
+   * Fields included are those on the IssueModel object.
+   */
+  fullIssue(): Promise<void> {
     return this.toYaml(false);
   }
 
@@ -32,7 +45,10 @@ export class IssueYamlCommand extends BaseCommandSet {
     }
 
     await this.plugin.app.fileManager.processFrontMatter(targetFile, (yaml) => {
-      const existingIssues = yaml['issues'];
+      // Issues will be a child of another key
+      const issueKey = this.plugin.settings.issueYamlKey;
+
+      const existingIssues = yaml[issueKey];
       let index = -1;
 
       if (existingIssues && Array.isArray(existingIssues)) {
@@ -40,29 +56,34 @@ export class IssueYamlCommand extends BaseCommandSet {
           (v: { key: string }) => v.key === issue.key,
         );
       } else {
-        yaml['issues'] = [];
+        yaml[issueKey] = [];
         index = 0;
       }
 
-      const summary: Record<string, string | undefined> = {
-        key: issue.key,
-        summary: issue.summary,
-        link: issue.link,
-        assignee: issue.assignee,
-        status: issue.status,
-        reporter: issue.reporter,
-        createDate: issue.createDate,
-        lastUpdated: issue.lastUpdated,
-      };
-
-      if (summarize === false) {
-        summary['fullText'] = issue.fullText;
+      let output: Record<string, string | undefined> | IssueModel;
+      if (summarize) {
+        output = {
+          key: issue.key,
+          summary: issue.summary,
+          link: issue.link,
+          assignee: issue.assignee.displayName,
+          status: issue.status?.name,
+          reporter: issue.reporter.displayName,
+          created: issue.created,
+          updated: issue.updated,
+          fullText: issue.fullText,
+        };
+      } else {
+        // Don't include the full output from the API if not enabled.
+        output = this.plugin.settings.includeAll
+          ? issue
+          : removeKeys(issue, ['_fields']);
       }
 
       if (index === -1) {
-        yaml['issues'].push(summary);
+        yaml[issueKey].push(output);
       } else {
-        yaml['issues'][index] = summary;
+        yaml[issueKey][index] = output;
       }
     });
   }
