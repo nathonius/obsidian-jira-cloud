@@ -1,95 +1,106 @@
-# Obsidian Sample Plugin
+# Obsidian Jira Cloud Plugin
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+Connect your Jira issues to Obsidian. Issues can be added to frontmatter or accessed via the plugin API.
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+## Configuration
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+Before the plugin can be used, it must be configured.
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+### Generate an API key
 
-## First time developing plugins?
+Navigate to the [API Tokens page](https://id.atlassian.com/manage-profile/security/api-tokens) in Atlassian account settings and create a new token. Paste the value of the token into the plugin's settings in Obsidian.
 
-Quick starting guide for new plugin devs:
+### Add username and host
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+Add your username you use to log into Jira. This will likely be an email address. The host setting is the base URL you use to access Jira. This will likely be a URL like `https://my-company.atlassian.net`.
 
-## Releasing new releases
+Once configured, the plugin should connect to Jira. If there are any issues, try restarting Obsidian first.
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+## Use
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+### Summarize to frontmatter
 
-## Adding your plugin to the community plugin list
+Executing the command `Jira Cloud: Summarize issue to frontmatter` will open a modal where you can search for issues by key or summary title. After selecting an issue, the following data will be added to the current note's YAML frontmatter:
 
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+```yaml
+issues:
+  - key: AA-1234
+    summary: Issue Name
+    link: https://your-company.atlassian.net/browse/AA-1234
+    assignee: Person McPerson
+    status: To-do
+    reporter: Another Person
+    created: 2023-07-01T13:57:38.686-0700
+    updated: 2023-07-10T11:05:48.493-0700
+    fullText: >-
+      The full description of the issue as a single or multiline string.
 
-## How to use
-
-- Clone this repo.
-- `npm i` or `yarn` to install dependencies
-- `npm run dev` to start compilation in watch mode.
-
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
-
-## Funding URL
-
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+      This example shows a multiline string.
 ```
 
-If you have multiple URLs, you can also do:
+Subsequent executions of the command will add to the issues object if a different issue is selected. If the same issue is selected, the values will be replaced.
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
+### Add issue to frontmatter
+
+Executing the command `Jira Cloud: Add issue to frontmatter` will open a modal where you can search for issues by key or summary title. After selected an issue, many fields will be added to the YAML frontmatter:
+
+```yaml
+issues:
+  - key: AA-1234
+    summary: Issue Name
+    link: https://your-company.atlassian.net/browse/AA-1234
+    issuetype:
+      iconUrl: https://your-company.atlassian.net/rest/api/2/some_url/
+      name: Bug
+      subtask: false
+    status:
+      iconUrl: https://your-company.atlassian.net/images/icons/statuses/generic.png
+      name: To-do
+    assignee:
+      emailAddress: person@company.com
+      displayName: Person McPerson
+      avatar: https://avatars.example.net/some_id/48
+    reporter:
+      displayName: Another Person
+      avatar: https://avatars.example.net/some_id/48
+    fullText: >-
+      The full description of the issue as a single or multiline string.
+
+      This example shows a multiline string.
+    updated: 2023-07-10T11:05:48.493-0700
+    created: 2023-07-07T13:57:38.686-0700
+    priority:
+      iconUrl: https://your-company.atlassian.net/images/icons/priorities/high.svg
+      name: High
+    project:
+      name: Engineering
+      key: AA
+      avatar: https://your-company.atlassian.net/rest/api/3/some_url/
+    labels: []
 ```
 
-## API Documentation
+If the "include full API response in YAML frontmatter" setting is enabled, the data will be expanded further. Note that this will produce a very large result.
 
-See https://github.com/obsidianmd/obsidian-api
+### With other plugins
+
+This plugin exposes an API that can be used with other plugins. It can be accessed via `app.plugins.plugins['jira-cloud'].api`. See the API class [here](https://github.com/OfficerHalf/obsidian-jira-cloud/blob/main/src/api.ts).
+
+For example, the following [Templater](https://github.com/SilentVoid13/Templater) template adds an issue inside a callout, with the callout type configured using the [Admonition](https://github.com/javalent/admonitions) plugin.
+
+```markdown
+<%\* const issue = await app.plugins.plugins['jira-cloud'].api.getIssue() %>
+
+> [!Issue<% issue.issuetype.name %>] <% `${issue.key}: ${issue.summary}` %>
+> <% `**Status:** ${issue.status.name} **Assigned to:** ${issue.assignee.displayName}` %>
+>
+> <% issue.fullText.split('\n').join('\n> ') %>
+```
+
+This could produce a callout like this:
+
+![Callout example](doc/image.png)
+
+## Acknowledgements
+
+- [Atlassian](https://www.atlassian.com/)
+- [Jira.js](https://github.com/MrRefactoring/jira.js)
