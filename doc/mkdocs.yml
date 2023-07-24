@@ -1,0 +1,10 @@
+# project info
+site_name: Obsidian Jira Cloud
+repo_url: https://github.com/OfficerHalf/obsidian-jira-cloud
+edit_uri: blob/main/doc/docs
+site_author: Nathan Smith
+
+# theme
+theme:
+  name: readthedocs
+  custom_dir: custom_theme/

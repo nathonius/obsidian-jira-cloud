@@ -1,0 +1,14 @@
+/* Set code fonts */
+.rst-content code,
+.rst-content tt {
+  font-family:
+    Hack,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    Liberation Mono,
+    Courier New,
+    Courier,
+    monospace;
+}
