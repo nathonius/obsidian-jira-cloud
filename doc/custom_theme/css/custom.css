@@ -12,3 +12,19 @@
     Courier,
     monospace;
 }
+
+/* Copy code button */
+pre {
+  position: relative;
+}
+
+pre button.copy-code-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  display: none;
+}
+
+pre:hover button.copy-code-btn {
+  display: unset;
+}

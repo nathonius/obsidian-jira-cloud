@@ -79,7 +79,7 @@ This plugin exposes an API that can be used with other plugins. It can be access
 
 For example, the following [Templater](https://github.com/SilentVoid13/Templater) template adds an issue inside a callout, with the callout type configured using the [Admonition](https://github.com/javalent/admonitions) plugin.
 
-```text
+```markdown
 <%* const issue = await app.plugins.plugins['jira-cloud'].api.getIssue() %>
 
 > [!Issue<% issue.issuetype.name %>] <% `${issue.key}: ${issue.summary}` %>

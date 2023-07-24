@@ -4,10 +4,18 @@ repo_url: https://github.com/OfficerHalf/obsidian-jira-cloud
 edit_uri: blob/main/doc/docs
 site_author: Nathan Smith
 
+# site structure
+nav:
+  - "index.md"
+  - "configuration.md"
+  - "examples.md"
+
 # theme
 theme:
   name: readthedocs
   custom_dir: custom_theme/
+extra_javascript:
+  - js/copy-code.js
 
 # plugins
 plugins:
