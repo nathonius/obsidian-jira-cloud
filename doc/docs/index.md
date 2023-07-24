@@ -1,6 +1,6 @@
 # Overview
 
-Obsidian Jira Cloud connects your Jira issues to Obsidian. Issues can be added to frontmatter or accessed via the plugin API.
+Obsidian Jira Cloud connects your Jira issues to Obsidian. Issues can be added to frontmatter or accessed via the plugin API. See the [project roadmap](https://github.com/users/OfficerHalf/projects/5) for details on the future of the plugin.
 
 ## Getting started
 
