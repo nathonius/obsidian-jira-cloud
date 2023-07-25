@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "node esbuild.config.mjs",
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
-    "version": "node version-bump.mjs && git add manifest.json versions.json"
+    "version": "node version-bump.mjs && git add manifest.json versions.json",
+    "docs:dev": "cd doc && mkdocs serve",
+    "docs:build": "cd doc && mkdocs build",
+    "docs:deploy": "cd doc && mkdocs gh-deploy",
+    "docs:install": "pip3 install mkdocs"
   },
   "keywords": [],
   "author": {
