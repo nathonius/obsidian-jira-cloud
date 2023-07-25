@@ -19,7 +19,3 @@ extra_css:
   - css/custom.css
 extra_javascript:
   - js/copy-code.js
-
-# plugins
-plugins:
-  - include-markdown
