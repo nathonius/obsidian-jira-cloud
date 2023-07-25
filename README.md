@@ -10,7 +10,7 @@ Check out the complete [documentation](https://pages.nathan-smith.org/obsidian-j
 
 This plugin is open source software not created or endorsed in any way by Atlassian. It also makes use of other open source libraries, mainly [Jira.js](https://github.com/MrRefactoring/jira.js), which is similarly not created or endorsed by Atlassian.
 
-Use of this plugin requires the creation of an API Token which grants full read and write access to the configured Jira instance; anything your Jira account can do, this token can do. Use at your own risk.
+Use of this plugin requires the creation of an API Token which grants full read and write access to the configured Jira instance; though it can be revoked at any time, anything your Jira account can do, this token can do. Use at your own risk.
 
 ## Acknowledgements
 

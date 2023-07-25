@@ -1,6 +1,6 @@
 # Overview
 
-Obsidian Jira Cloud connects your Jira issues to Obsidian. Issues can be added to frontmatter or accessed via the plugin API. See the [project roadmap](https://github.com/users/OfficerHalf/projects/5) for details on the future of the plugin.
+Connect your Jira issues to Obsidian. Search for issues and them to frontmatter or use them in templates without leaving Obsidian. See the [project roadmap](https://github.com/users/OfficerHalf/projects/5) for details on the future of the plugin.
 
 ## Getting started
 
@@ -92,4 +92,10 @@ This could produce a callout like this:
 
 ![Callout example](assets/api-callout-example.png)
 
-<!-- For more examples, check the [examples folder](doc/exmaples). -->
+See [Examples](examples) for more examples of use.
+
+## Disclaimers
+
+This plugin is open source software not created or endorsed in any way by Atlassian. It also makes use of other open source libraries, mainly [Jira.js](https://github.com/MrRefactoring/jira.js), which is similarly not created or endorsed by Atlassian.
+
+Use of this plugin requires the creation of an API Token which grants full read and write access to the configured Jira instance; though it can be revoked at any time, anything your Jira account can do, this token can do. Use at your own risk.
