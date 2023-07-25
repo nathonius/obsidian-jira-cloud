@@ -2,21 +2,39 @@
 site_name: Obsidian Jira Cloud
 site_url: https://pages.nathan-smith.org/obsidian-jira-cloud/
 repo_url: https://github.com/OfficerHalf/obsidian-jira-cloud
+repo_name: obsidian-jira-cloud
 edit_uri: blob/main/doc/docs
 site_author: Nathan Smith
+copyright: Copyright &copy; 2023 Nathan Smith
 
 # site structure
 nav:
   - "index.md"
   - "configuration.md"
   - "examples.md"
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/OfficerHalf/obsidian-jira-cloud
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/obsidianmd
 
 # theme
 theme:
   name: material
+  logo: assets/obsidian-icon.svg
+  favicon: assets/obsidian-icon.svg
+  icon:
+    repo: fontawesome/brands/github
   features:
+    - navigation.sections
+    - navigation.top
     - content.code.copy
     - content.code.annotate
+    - content.action.view
+    - search.suggest
+    - search.share
+    - toc.integrate
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
@@ -35,12 +53,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-
-  # custom_dir: custom_theme/
-# extra_css:
-#   - css/custom.css
-# extra_javascript:
-#   - js/copy-code.js
 
 markdown_extensions:
   - pymdownx.highlight:

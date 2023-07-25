@@ -5,11 +5,12 @@ import {
 } from './settings';
 import { Notice, Plugin } from 'obsidian';
 
-import { YamlCommand } from './commands/yaml';
 import { JiraCloudPluginApi } from './api';
 import { JiraIssuePicker } from './jira/issuePicker';
 import { LoggerMiddleware } from './jira/sdk/logger';
 import { ObsidianJiraClient } from './jira/sdk/jira';
+import { YamlCommand } from './commands/yaml';
+
 // import { QuickAddCommand } from './commands/quickadd';
 
 export class JiraCloudPlugin extends Plugin {
