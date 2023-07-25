@@ -13,9 +13,41 @@ nav:
 
 # theme
 theme:
-  name: readthedocs
-  custom_dir: custom_theme/
-extra_css:
-  - css/custom.css
-extra_javascript:
-  - js/copy-code.js
+  name: material
+  features:
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  # custom_dir: custom_theme/
+# extra_css:
+#   - css/custom.css
+# extra_javascript:
+#   - js/copy-code.js
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

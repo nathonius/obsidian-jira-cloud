@@ -10,7 +10,7 @@
     "docs:dev": "cd doc && mkdocs serve",
     "docs:build": "cd doc && mkdocs build",
     "docs:deploy": "cd doc && mkdocs gh-deploy",
-    "docs:install": "pip3 install mkdocs"
+    "docs:install": "pip3 install mkdocs mkdocs-material"
   },
   "keywords": [],
   "author": {
