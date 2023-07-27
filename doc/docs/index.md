@@ -2,6 +2,10 @@
 
 Connect your Jira issues to Obsidian. Search for issues and them to frontmatter or use them in templates without leaving Obsidian. See the [project roadmap](https://github.com/users/OfficerHalf/projects/5) for details on the future of the plugin.
 
+## Install
+
+Until the plugin is [available on the community registry](https://github.com/obsidianmd/obsidian-releases/pull/2147/) it may be installed using [BRAT](https://github.com/TfTHacker/obsidian42-brat).
+
 ## Getting started
 
 See [configuration](configuration.md) for setup instructions.
