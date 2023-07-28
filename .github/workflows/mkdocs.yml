@@ -1,19 +1,39 @@
-name: Publish Docs to GitHub Pages
+name: docs-deploy
 on:
-  workflow_dispatch:
   release:
     types: [published]
-
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+concurrency:
+  cancel-in-progress: true
+  group: "pages"
 jobs:
   build:
-    name: Deploy docs
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v3.5.3
-
-      - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_FILE: doc/mkdocs.yml
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: pip install mkdocs-material
+      
+      - name: Build site
+        run: mkdocs -f doc/mkdocs.yml build
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "doc/site"
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy site
+        id: deploy-pages
+        uses: actions/deploy-pages@v1
