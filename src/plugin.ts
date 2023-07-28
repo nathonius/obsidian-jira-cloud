@@ -5,6 +5,7 @@ import {
 } from './settings';
 import { Notice, Plugin } from 'obsidian';
 
+import { EditorCommand } from './commands/editor';
 import { JiraCloudPluginApi } from './api';
 import { JiraIssuePicker } from './jira/issuePicker';
 import { LoggerMiddleware } from './jira/sdk/logger';
@@ -32,7 +33,7 @@ export class JiraCloudPlugin extends Plugin {
     this.addSettingTab(new JiraCloudSettingsTab(this.app, this));
     this.createJiraClient();
     new YamlCommand(this).register();
-    // new QuickAddCommand(this).register();
+    new EditorCommand(this).register();
   }
 
   onunload() {}
