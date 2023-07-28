@@ -14,6 +14,10 @@ This plugin currently only supports Obsidian commands and usage through the plug
 
 ## Commands
 
+### Insert issue link at cursor
+
+Executing the command `Jira Cloud: Insert issue link at cursor` will open a modal where you can search for issues by key or summary title. After selecting an issue, a link to that issue will be added at the cursor in the current file. The link includes the key and issue summary, like `[AB-1234: Deploy the prototype before the deadline](https://your-company.atlassian.net/browse/AB-1234)`.
+
 ### Summarize to frontmatter
 
 Executing the command `Jira Cloud: Summarize issue to frontmatter` will open a modal where you can search for issues by key or summary title. After selecting an issue, the following data will be added to the current note's YAML frontmatter:
