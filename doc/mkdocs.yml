@@ -12,6 +12,7 @@ nav:
   - "index.md"
   - "configuration.md"
   - "examples.md"
+  - "changelog.md"
 extra:
   social:
     - icon: fontawesome/brands/github
@@ -27,14 +28,12 @@ theme:
   icon:
     repo: fontawesome/brands/github
   features:
-    - navigation.sections
     - navigation.top
     - content.code.copy
     - content.code.annotate
     - content.action.view
     - search.suggest
     - search.share
-    - toc.integrate
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
@@ -63,3 +62,9 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.details
+  - admonition
+
+plugins:
+  - search
+  - include-markdown
