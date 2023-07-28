@@ -1,6 +1,6 @@
 {
   "name": "obsidian-jira-cloud",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Add Jira issue data to your notes",
   "main": "main.js",
   "scripts": {
