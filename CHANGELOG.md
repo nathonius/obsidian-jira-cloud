@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- New button in settings to verify the connection to jira
+- Better error logging
+
 ### Fixed
 
 - Search includes issue key match results

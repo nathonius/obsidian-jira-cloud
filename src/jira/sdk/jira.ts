@@ -1,8 +1,13 @@
 import { BaseClient, Callback, Config, RequestConfig } from 'jira.js';
 import { IssueSearch, Issues } from 'jira.js/out/version3';
+import {
+  JiraAPIError,
+  JiraAPIErrorReason,
+  isFailureResponse,
+  removeKeys,
+} from 'src/util';
 import { RequestUrlParam, requestUrl } from 'obsidian';
 
-import { removeKeys } from 'src/util';
 import { Base64Encoder } from './base64Encoder';
 
 /**
@@ -49,9 +54,22 @@ export class ObsidianJiraClient extends BaseClient {
           ),
           ...(requestConfig.headers as Record<string, string>),
         },
+        throw: false,
       };
 
       const response = await requestUrl(obsidianRequestConfig);
+
+      /**
+       * For anonymous endpoints, the status will still be 200, even if unauthorized
+       * so we should throw this error if we see this specific header
+       */
+      if (response.headers['x-seraph-loginreason'] === 'AUTHENTICATED_FAILED') {
+        throw new JiraAPIError(JiraAPIErrorReason.Unauthorized, response);
+      }
+
+      if (isFailureResponse(response.status)) {
+        throw new JiraAPIError(response.status, response);
+      }
 
       const callbackResponseHandler =
         callback && ((data: T): void => callback(null, data));

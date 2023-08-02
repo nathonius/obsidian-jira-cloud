@@ -3,6 +3,7 @@ import {
   JiraCloudSettings,
   JiraCloudSettingsTab,
 } from './settings';
+import { JiraAPIError, JiraAPIErrorReason } from './util';
 import { Notice, Plugin } from 'obsidian';
 
 import { EditorCommand } from './commands/editor';
@@ -23,7 +24,7 @@ export class JiraCloudPlugin extends Plugin {
 
   get jira(): ObsidianJiraClient {
     if (!this._jira) {
-      throw 'Jira not initialized!';
+      throw new JiraAPIError(JiraAPIErrorReason.NotInitialized);
     }
     return this._jira;
   }
@@ -42,15 +43,19 @@ export class JiraCloudPlugin extends Plugin {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
   }
 
-  async saveSettings() {
+  async saveSettings(recreateClient = false) {
     await this.saveData(this.settings);
-    if (!this._jira) {
+    if (!this._jira || recreateClient) {
       this.createJiraClient();
     }
   }
 
   private createJiraClient(): void {
     if (this.settings.apiKey && this.settings.username && this.settings.host) {
+      if (this._jira !== undefined) {
+        delete this._jira;
+      }
+
       this._jira = new ObsidianJiraClient({
         host: this.settings.host,
         authentication: {
