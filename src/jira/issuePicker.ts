@@ -39,7 +39,7 @@ export class JiraIssuePicker extends SuggestModal<Version3Models.SuggestedIssue>
     const suggestResponse =
       await this.plugin.jira.issueSearch.getIssuePickerResource({
         query,
-        currentJQL: `summary ~ "${query}"`,
+        currentJQL: `summary ~ "${query}" OR key = "${query}" OR description ~ "${query}"`,
       });
 
     const suggestionSections = suggestResponse.sections ?? [];
