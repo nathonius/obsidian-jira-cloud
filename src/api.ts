@@ -1,5 +1,6 @@
-import { htmlToMarkdown } from 'obsidian';
 import { IssueModel, asIssueModel } from './jira/models/issue';
+import { JiraAPIError, JiraAPIErrorReason } from './util';
+import { Notice, htmlToMarkdown } from 'obsidian';
 
 import { JiraCloudPlugin } from './plugin';
 
@@ -11,6 +12,51 @@ export class JiraCloudPluginApi {
 
   private get jira() {
     return this.plugin.jira;
+  }
+
+  async verifyConnection(): Promise<void> {
+    let message = 'Connection verified successfully!';
+    try {
+      // Try to get recently viewed issues
+      const response = await this.jira.issueSearch.getIssuePickerResource();
+
+      // Something weird happened
+      if (!response?.sections || response.sections.length === 0) {
+        throw new Error();
+      }
+
+      // Successful response, but no issues present
+      if (
+        !response.sections[0].issues ||
+        response.sections[0].issues.length === 0
+      ) {
+        message =
+          'Connection could not be verified, no issues were returned from the API. Please check the console.';
+        console.warn('Jira API response follows:');
+        console.warn(response);
+      }
+      void new Notice(message);
+    } catch (err) {
+      if (err instanceof JiraAPIError) {
+        console.error(err.response);
+        if (err.reason === JiraAPIErrorReason.NotInitialized) {
+          message = 'Could not verify connection. Jira was not initialized.';
+        } else if (err.reason === JiraAPIErrorReason.Unauthorized) {
+          message =
+            'Jira client not authorized. Please verify your configuration.';
+        } else if (
+          err.reason === JiraAPIErrorReason.Other &&
+          err.response?.status === 404
+        ) {
+          message =
+            '404 Error: Could not reach Jira instance, check your host URI.';
+        }
+      } else {
+        message = 'Could not verify connection. Unknown error, check logs.';
+      }
+      void new Notice(message);
+      throw err;
+    }
   }
 
   /**

@@ -7,3 +7,9 @@
 .ojc-search-result > img {
     width: 24px;
 }
+
+.ojc-verify-connection {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}

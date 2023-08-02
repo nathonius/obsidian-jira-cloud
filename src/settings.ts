@@ -56,6 +56,8 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
 
     containerEl.empty();
 
+    containerEl.createEl('h2', { text: 'Jira connection' });
+
     new Setting(containerEl)
       .setName('Host')
       .setDesc('Your Atlassian URI, eg. https://my-company.atlassian.net')
@@ -65,7 +67,7 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
           .setValue(this.plugin.settings.host)
           .onChange(async (value) => {
             this.plugin.settings.host = value;
-            await this.plugin.saveSettings();
+            await this.plugin.saveSettings(true);
           }),
       );
 
@@ -78,7 +80,7 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
           .setValue(this.plugin.settings.username)
           .onChange(async (value) => {
             this.plugin.settings.username = value;
-            await this.plugin.saveSettings();
+            await this.plugin.saveSettings(true);
           }),
       );
 
@@ -93,24 +95,22 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
           .setValue(this.plugin.settings.apiKey)
           .onChange(async (value) => {
             this.plugin.settings.apiKey = value;
-            await this.plugin.saveSettings();
+            await this.plugin.saveSettings(true);
           }),
       );
 
-    // new Setting(containerEl)
-    //   .setName('QuickAdd choice')
-    //   .setDesc(
-    //     'The name of an existing QuickAdd choice to execute with issue data as an argument. Requires the QuickAdd plugin to be installed and configured.',
-    //   )
-    //   .addText((text) =>
-    //     text
-    //       .setPlaceholder('choiceName')
-    //       .setValue(this.plugin.settings.quickAddChoice)
-    //       .onChange(async (value) => {
-    //         this.plugin.settings.quickAddChoice = value;
-    //         await this.plugin.saveSettings();
-    //       }),
-    //   );
+    const verifyContainer = containerEl.createDiv({
+      cls: 'ojc-verify-connection',
+    });
+    const verifyButton = verifyContainer.createEl('button', {
+      cls: 'ojc-verify-connection-btn',
+      text: 'Verify Connection',
+    });
+    verifyButton.addEventListener('click', () => {
+      this.plugin.api.verifyConnection();
+    });
+
+    containerEl.createEl('h2', { text: 'Other options' });
 
     new Setting(containerEl)
       .setName('Render HTML content to markdown')
