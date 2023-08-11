@@ -1,6 +1,6 @@
 # Obsidian Jira Cloud Plugin
 
-Connect your Jira issues to Obsidian. Search for issues and them to frontmatter or use them in templates without leaving Obsidian. See the [project roadmap](https://github.com/users/OfficerHalf/projects/5) for details on the future of the plugin.
+Connect your Jira issues to Obsidian. Search for issues and add them to frontmatter or use them in templates without leaving Obsidian. See the [project roadmap](https://github.com/users/OfficerHalf/projects/5) for details on the future of the plugin.
 
 ## Documentation
 
