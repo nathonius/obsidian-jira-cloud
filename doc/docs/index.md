@@ -4,7 +4,7 @@ Connect your Jira issues to Obsidian. Search for issues and them to frontmatter 
 
 ## Install
 
-Until the plugin is [available on the community registry](https://github.com/obsidianmd/obsidian-releases/pull/2147/) it may be installed using [BRAT](https://github.com/TfTHacker/obsidian42-brat).
+Install via the community plugin registry in Obsidian or via [this link](https://obsidian.md/plugins?id=jira-cloud). The plugin may also be installed using [BRAT](https://github.com/TfTHacker/obsidian42-brat).
 
 ## Getting started
 
