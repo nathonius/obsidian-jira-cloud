@@ -1,7 +1,7 @@
 {
   "id": "jira-cloud",
   "name": "Jira Cloud",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "minAppVersion": "0.15.0",
   "description": "Add Jira issue data to your notes.",
   "author": "OfficerHalf",
