@@ -1,6 +1,7 @@
 import { Command, Editor } from 'obsidian';
 
 import { BaseCommandSet } from './base';
+import { asIssueModel } from 'src/jira/models/issue';
 
 /**
  */
@@ -19,7 +20,8 @@ export class EditorCommand extends BaseCommandSet {
       return;
     }
 
-    const issueLink = `[${issue.key}: ${issue.summary}](${issue.link})`;
+    const issueModel = asIssueModel(issue, false);
+    const issueLink = `[${issueModel.key}: ${issueModel.summary}](${issueModel.link})`;
     const cursor = editor.getCursor();
     // Insert text at cursor
     editor.replaceRange(issueLink, cursor);

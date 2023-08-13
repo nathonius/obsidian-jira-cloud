@@ -1,5 +1,5 @@
-import { JiraCloudPlugin } from '../plugin';
-import { SuggestModal } from 'obsidian';
+import { BaseSuggest } from './base';
+import { JiraCloudPlugin } from '../../plugin';
 import { Version3Models } from 'jira.js';
 
 const MIN_QUERY_LENGTH = 3;
@@ -7,25 +7,9 @@ const MIN_QUERY_LENGTH = 3;
 /**
  * Suggest modal that searches for Jira issues
  */
-export class JiraIssuePicker extends SuggestModal<Version3Models.SuggestedIssue> {
-  private resolve:
-    | ((value: Version3Models.SuggestedIssue | null) => void)
-    | null = null;
-  private selectedIssue: Version3Models.SuggestedIssue | null = null;
-
-  constructor(private readonly plugin: JiraCloudPlugin) {
-    super(plugin.app);
-    this.setPlaceholder('Search for a Jira issue...');
-  }
-
-  /**
-   * Creates a promise that will be resolved when the user selects an issue or closes the modal
-   */
-  pick(): Promise<Version3Models.SuggestedIssue | null> {
-    return new Promise((resolve) => {
-      this.resolve = resolve;
-      this.open();
-    });
+export class IssueSuggest extends BaseSuggest<Version3Models.SuggestedIssue> {
+  constructor(plugin: JiraCloudPlugin) {
+    super(plugin, 'Search for a Jira issue...');
   }
 
   async getSuggestions(
@@ -67,26 +51,5 @@ export class JiraIssuePicker extends SuggestModal<Version3Models.SuggestedIssue>
       });
     }
     wrapper.createSpan({ text: `${value.key}: ${value.summaryText}` });
-  }
-
-  selectSuggestion(
-    value: Version3Models.SuggestedIssue,
-    evt: MouseEvent | KeyboardEvent,
-  ): void {
-    this.selectedIssue = value;
-    super.selectSuggestion(value, evt);
-  }
-
-  /**
-   * onChooseSuggestion is called after onClose, so we instead handle the choice in selectSuggestion
-   */
-  onChooseSuggestion() {}
-
-  onClose(): void {
-    if (this.resolve) {
-      this.resolve(this.selectedIssue);
-      this.resolve = null;
-      this.selectedIssue = null;
-    }
   }
 }

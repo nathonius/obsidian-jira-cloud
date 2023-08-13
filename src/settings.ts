@@ -15,7 +15,6 @@ export interface JiraCloudSettings {
    * Jira URL, of the form https://my-company.atlassian.net
    */
   host: string;
-  quickAddChoice: string;
   /**
    * If enabled, HTML content in issues will be rendered to markdown.
    * @default true
@@ -37,7 +36,6 @@ export const DEFAULT_SETTINGS: JiraCloudSettings = {
   apiKey: '',
   username: '',
   host: '',
-  quickAddChoice: '',
   renderToMarkdown: true,
   issueYamlKey: 'issues',
   includeAll: false,
@@ -84,11 +82,17 @@ export class JiraCloudSettingsTab extends PluginSettingTab {
           }),
       );
 
+    const apiKeyDescription = new DocumentFragment();
+    apiKeyDescription.appendText('Your Atlassian API Key, generated here ');
+    apiKeyDescription.appendChild(
+      apiKeyDescription.createEl('a', {
+        href: 'https://id.atlassian.com/manage-profile/security/api-tokens',
+        text: 'https://id.atlassian.com/manage-profile/security/api-tokens',
+      }),
+    );
     new Setting(containerEl)
       .setName('API Key')
-      .setDesc(
-        'Your Atlassian API Key, generated here https://id.atlassian.com/manage-profile/security/api-tokens',
-      )
+      .setDesc(apiKeyDescription)
       .addText((text) =>
         text
           .setPlaceholder('ZnJlZDpmcmVk')

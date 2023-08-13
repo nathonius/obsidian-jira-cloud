@@ -11,7 +11,6 @@ copyright: Copyright &copy; 2023 Nathan Smith
 nav:
   - "index.md"
   - "configuration.md"
-  - "examples.md"
   - "changelog.md"
 extra:
   social:

@@ -1,8 +1,8 @@
-import { IssueModel, asIssueModel } from './jira/models/issue';
 import { JiraAPIError, JiraAPIErrorReason } from './util';
-import { Notice, htmlToMarkdown } from 'obsidian';
 
 import { JiraCloudPlugin } from './plugin';
+import { Notice } from 'obsidian';
+import { Version3Models } from 'jira.js';
 
 /**
  * Public API of the Jira Cloud plugin. Use this with other plugins.
@@ -63,22 +63,32 @@ export class JiraCloudPluginApi {
    * Open a suggest modal to select an issue and return the issue value.
    * @throws error when the Jira client has not been initialized.
    */
-  async getIssue(): Promise<IssueModel | null> {
-    const suggestion = await this.plugin.issuePicker.pick();
+  async getIssue(): Promise<Version3Models.Issue | null> {
+    const suggestion = await this.plugin.issueSuggest.pick();
     if (!suggestion || !suggestion.key) {
       return null;
     }
-    const issue = asIssueModel(
-      await this.jira.issues.getIssue({
-        issueIdOrKey: suggestion.key,
-      }),
-    );
+    return await this.jira.issues.getIssue({
+      issueIdOrKey: suggestion.key,
+    });
+  }
 
-    // Render HTML fields to markdown
-    if (this.plugin.settings.renderToMarkdown) {
-      issue.fullText = htmlToMarkdown(issue.fullText ?? '');
-    }
+  /**
+   * Open a suggest modal to select a project and return the project value.
+   * @throws error when the Jira client has not been initialized.
+   */
+  async getProject(): Promise<Version3Models.Project | null> {
+    return await this.plugin.projectSuggest.pick();
+  }
 
-    return issue;
+  /**
+   * Open a suggest modal to select an issue type and return the issue type details.
+   * @throws error when the Jira client has not been initialized.
+   */
+  async getIssueType(
+    projectId: number | null = null,
+  ): Promise<Version3Models.IssueTypeDetails | null> {
+    this.plugin.issueTypeSuggest.projectId = projectId;
+    return await this.plugin.issueTypeSuggest.pick();
   }
 }
