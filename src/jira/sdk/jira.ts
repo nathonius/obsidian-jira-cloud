@@ -97,9 +97,7 @@ export class ObsidianJiraClient extends BaseClient {
       this.config.middlewares?.onResponse?.(response.json);
 
       return responseHandler(response.json);
-    } catch (e: any) {
-      const err = e;
-
+    } catch (e: unknown) {
       const callbackErrorHandler =
         callback && ((error: Config.Error) => callback(error));
       const defaultErrorHandler = (error: Error) => {
@@ -108,9 +106,9 @@ export class ObsidianJiraClient extends BaseClient {
 
       const errorHandler = callbackErrorHandler ?? defaultErrorHandler;
 
-      this.config.middlewares?.onError?.(err);
+      this.config.middlewares?.onError?.(e as Config.Error);
 
-      return errorHandler(err);
+      return errorHandler(e as Config.Error);
     }
   }
 

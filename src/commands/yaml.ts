@@ -1,6 +1,7 @@
+import { IssueModel, asIssueModel } from 'src/jira/models/issue';
+
 import { BaseCommandSet } from './base';
 import { Command } from 'obsidian';
-import { IssueModel } from 'src/jira/models/issue';
 import { removeKeys } from 'src/util';
 
 /**
@@ -37,12 +38,17 @@ export class YamlCommand extends BaseCommandSet {
   }
 
   private async toYaml(summarize = true): Promise<void> {
-    const issue = await this.plugin.api.getIssue();
+    const issueData = await this.plugin.api.getIssue();
     const targetFile = this.plugin.app.workspace.getActiveFile();
 
-    if (!issue || !targetFile) {
+    if (!issueData || !targetFile) {
       return;
     }
+
+    const issue = asIssueModel(
+      issueData,
+      this.plugin.settings.renderToMarkdown,
+    );
 
     await this.plugin.app.fileManager.processFrontMatter(targetFile, (yaml) => {
       // Issues will be a child of another key

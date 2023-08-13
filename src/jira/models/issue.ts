@@ -1,4 +1,5 @@
 import { Version3Models } from 'jira.js';
+import { htmlToMarkdown } from 'obsidian';
 import { removeKeys } from '../../util';
 
 /**
@@ -52,9 +53,10 @@ export function asIssueModel(
   _issueData: Omit<Version3Models.Issue, 'fields'> & {
     fields: Partial<Version3Models.Fields>;
   },
+  renderToMarkdown = true,
 ): IssueModel {
   const baseUrl = _issueData.self?.split('/rest')[0];
-  return removeKeys({
+  const model = removeKeys({
     key: _issueData.key,
     summary: _issueData.fields.summary ?? '',
     link: `${baseUrl}/browse/${_issueData.key}`,
@@ -86,4 +88,11 @@ export function asIssueModel(
       : undefined,
     _fields: removeKeys(_issueData.fields),
   });
+
+  // Render HTML fields to markdown
+  if (renderToMarkdown) {
+    model.fullText = htmlToMarkdown(model.fullText ?? '');
+  }
+
+  return model;
 }
