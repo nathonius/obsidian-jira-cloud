@@ -3,6 +3,7 @@ import { JiraAPIError, JiraAPIErrorReason } from './util';
 import { Notice, htmlToMarkdown } from 'obsidian';
 
 import { JiraCloudPlugin } from './plugin';
+import { Version3Models } from 'jira.js';
 
 /**
  * Public API of the Jira Cloud plugin. Use this with other plugins.
@@ -64,7 +65,7 @@ export class JiraCloudPluginApi {
    * @throws error when the Jira client has not been initialized.
    */
   async getIssue(): Promise<IssueModel | null> {
-    const suggestion = await this.plugin.issuePicker.pick();
+    const suggestion = await this.plugin.issueSuggest.pick();
     if (!suggestion || !suggestion.key) {
       return null;
     }
@@ -80,5 +81,16 @@ export class JiraCloudPluginApi {
     }
 
     return issue;
+  }
+
+  async getProject(): Promise<Version3Models.Project | null> {
+    return await this.plugin.projectSuggest.pick();
+  }
+
+  async getIssueType(
+    projectId: number | null = null,
+  ): Promise<Version3Models.IssueTypeDetails | null> {
+    this.plugin.issueTypeSuggest.projectId = projectId;
+    return await this.plugin.issueTypeSuggest.pick();
   }
 }

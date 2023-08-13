@@ -1,5 +1,10 @@
 import { BaseClient, Callback, Config, RequestConfig } from 'jira.js';
-import { IssueSearch, Issues } from 'jira.js/out/version3';
+import {
+  IssueSearch,
+  IssueTypes,
+  Issues,
+  Projects,
+} from 'jira.js/out/version3';
 import {
   JiraAPIError,
   JiraAPIErrorReason,
@@ -17,6 +22,8 @@ import { Base64Encoder } from './base64Encoder';
 export class ObsidianJiraClient extends BaseClient {
   issues = new Issues(this);
   issueSearch = new IssueSearch(this);
+  issueTypes = new IssueTypes(this);
+  projects = new Projects(this);
 
   /**
    * Overrides the internal axios config, replacing it with requestUrl,
@@ -53,9 +60,18 @@ export class ObsidianJiraClient extends BaseClient {
             this.config.authentication?.basic?.apiToken,
           ),
           ...(requestConfig.headers as Record<string, string>),
+          'X-Atlassian-Token': 'no-check', // This bypasses Jira's XSRF protection on some endpoints
+          'User-Agent': 'obsidian.md', // For other endpoints, we need to change the user agent
         },
         throw: false,
       };
+
+      if (requestConfig.data) {
+        obsidianRequestConfig.body = JSON.stringify(requestConfig.data);
+        obsidianRequestConfig.contentType = 'application/json';
+      }
+
+      console.log(obsidianRequestConfig);
 
       const response = await requestUrl(obsidianRequestConfig);
 
@@ -68,6 +84,7 @@ export class ObsidianJiraClient extends BaseClient {
       }
 
       if (isFailureResponse(response.status)) {
+        console.error(response);
         throw new JiraAPIError(response.status, response);
       }
 
