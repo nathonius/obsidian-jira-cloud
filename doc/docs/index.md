@@ -18,6 +18,10 @@ This plugin currently only supports Obsidian commands and usage through the plug
 
 Executing the command `Jira Cloud: Insert issue link at cursor` will open a modal where you can search for issues by key or summary title. After selecting an issue, a link to that issue will be added at the cursor in the current file. The link includes the key and issue summary, like `[AB-1234: Deploy the prototype before the deadline](https://your-company.atlassian.net/browse/AB-1234)`.
 
+### Create new issue
+
+Executing the command `Jira Cloud: Create new issue` will open a modal where you can specify an issue name, select a project, and select an issue type. The issue will be created and a link to the issue copied to the clipboard.
+
 ### Summarize to frontmatter
 
 Executing the command `Jira Cloud: Summarize issue to frontmatter` will open a modal where you can search for issues by key or summary title. After selecting an issue, the following data will be added to the current note's YAML frontmatter:
@@ -85,6 +89,7 @@ If the "include full API response in YAML frontmatter" setting is enabled, the d
 
 This plugin exposes an API that can be used with other plugins. It can be accessed via `app.plugins.plugins['jira-cloud'].api`. See the API class [here](https://github.com/OfficerHalf/obsidian-jira-cloud/blob/main/src/api.ts).
 
+<!-- TODO: Update this example with the refactored issue api response type
 For example, the following [Templater](https://github.com/SilentVoid13/Templater) template adds an issue inside a callout, with the callout type configured using the [Admonition](https://github.com/javalent/admonitions) plugin.
 
 ```markdown
@@ -101,6 +106,7 @@ This could produce a callout like this:
 ![Callout example](assets/api-callout-example.png)
 
 See [Examples](examples) for more examples of use.
+-->
 
 ## Disclaimers
 

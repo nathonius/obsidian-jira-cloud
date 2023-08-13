@@ -24,10 +24,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - New button in settings to verify the connection to jira
 - Better error logging
+- Create new issue command
 
 ### Fixed
 
 - Search includes issue key match results
+
+### Changed
+
+- BREAKING CHANGE: The plugin's api now always returns the raw response from Jira. Previously, issues were mutated into a simpler form. All keys will need to be updated to reference the correct field; see the [Jira REST api docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get) for more information.
 
 ## [1.2.0] - 2023-07-27
 
