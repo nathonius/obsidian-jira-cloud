@@ -12,6 +12,10 @@ This plugin is open source software not created or endorsed in any way by Atlass
 
 Use of this plugin requires the creation of an API Token which grants full read and write access to the configured Jira instance; though it can be revoked at any time, anything your Jira account can do, this token can do. Use at your own risk.
 
+## Alternatives
+
+There is a fair amount of overlap between this plugin and [Obsidian Jira Issue](https://github.com/marc0l92/obsidian-jira-issue), developed by [marc0l92](https://github.com/marc0l92). That plugin prioritizes live views of issues, while this one is more focused on static content. Be sure to check that plugin out, it might be better for your use case! I'm exploring the overlap between the two plugins in [this issue](https://github.com/OfficerHalf/obsidian-jira-cloud/issues/22).
+
 ## Acknowledgements
 
 - [Atlassian](https://www.atlassian.com/)
